@@ -32,9 +32,17 @@
       .hidden {
         opacity: 0%;
       }
+      .progress-bar {
+        height: 1rem;
+        background: white;
+        position: fixed;
+        top: 0;
+        left: 0;
+      }
     </style>
   </head>
   <body>
+    <div class="progress-bar"></div>
     <button class="back-to-top hidden">
       <svg
         xmlns="http://www.w3.org/2000/svg"
@@ -67,13 +75,29 @@
         backToTopButton.classList.add("hidden");
       }
     });
-    document.addEventListener("click",()=>{
-        goToTop();
-    })
+    document.addEventListener("click", () => {
+      goToTop();
+    });
     const goToTop = () => {
       document.body.scrollIntoView({
         behavior: "smooth",
       });
     };
+
+    const pageProgressBar = document.querySelector(".progress-bar");
+    document.addEventListener("scroll", () => {
+      const scrolledPercentage =
+        (scrollContainer().scrollTop /
+          (scrollContainer().scrollHeight - scrollContainer().clientHeight)) *
+        100;
+
+      pageProgressBar.style.width = `${scrolledPercentage}%`;
+
+      if (scrollContainer().scrollTop > showOnPx) {
+        backToTopButton.classList.remove("hidden");
+      } else {
+        backToTopButton.classList.add("hidden");
+      }
+    });
   </script>
 </html>
